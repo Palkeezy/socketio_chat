@@ -1,0 +1,10 @@
+doctype html
+html
+    head
+        title Welcome
+        link(rel='stylesheet' href='/css/main.css')
+    body
+        h3 Please enter tour nickname:
+            form(action='/login' method='POST')
+                input(type='text' name='name' required=true)
+                input(type='submit')

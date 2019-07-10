@@ -1,0 +1,17 @@
+doctype html
+html
+    head
+        title Welcome
+        link(rel='stylesheet' href='/css/main.css')
+    body
+        if user
+            h3= user.name + ', you can create chat:'
+        else
+            h3= 'Anonim, you can create chat:'
+        form(action='/create-chat' method='POST')
+            input(type='text' name='name' required=true)
+            input(type='submit')
+        ul
+            each chat in chats
+                li
+                    a(href='/conversations/' + chat._id)= chat.name
