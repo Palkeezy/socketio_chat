@@ -18,9 +18,15 @@ socket.on('message', function (message) {
     showMessage(message);
 });
 
+socket.on('loadChat', function (messages) {
+    for (const message of messages) {
+        showMessage(message);
+    }
+});
+
 function showMessage(message) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    messageDiv.innerText = `${message.date} ${message.author} ${message.text}`;
+    messageDiv.innerText = `${message.date} ${message.author}: ${message.text}`;
     messagesDiv.appendChild(messageDiv);
 }

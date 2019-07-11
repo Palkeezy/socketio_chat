@@ -64,7 +64,7 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 
 io.use(function (socket, next) {
-   sessionMiddleware(socket.request, socket.request.res, next);
+    sessionMiddleware(socket.request, socket.request.res, next);
 });
 
 io.on('connect', async function (socket) {
@@ -75,18 +75,20 @@ io.on('connect', async function (socket) {
 
     socket.join(chat._id);
 
+    io.to(socket.id).emit('loadChat', await MessageModel.find({chat: chat._id}));
+
     socket.on('message', async function (data) {
-       const text = data.text;
-       const date = new Date();
+        const text = data.text;
+        const date = new Date();
 
-       const message = await MessageModel.create({
-           text: text,
-           date: date,
-           author: user.name,
-           chat: chat._id
-       });
+        const message = await MessageModel.create({
+            text: text,
+            date: date.toLocaleString(),
+            author: user.name,
+            chat: chat._id
+        });
 
-       io.to(chat._id).emit('message', message);
+        io.to(chat._id).emit('message', message);
 
     });
 
